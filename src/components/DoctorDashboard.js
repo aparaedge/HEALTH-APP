@@ -1,6 +1,5 @@
-// src/components/DoctorDashboard.js
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, TextField, Button, Box, Alert } from '@mui/material';
+import { Container, Typography, TextField, Button, Box, Alert, Grid, Paper, ListItem, ListItemText } from '@mui/material';
 import patientsData from '../data/patients.json';
 import appointmentCounts from '../data/appointmentCounts.json';
 
@@ -72,59 +71,71 @@ const DoctorDashboard = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Doctor Dashboard
         </Typography>
-        <Typography variant="body1" gutterBottom>
-          Total Patients: {totalPatients}
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          Total Appointments Today: {totalAppointmentsToday}
-        </Typography>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Paper>
+              <Box p={2}>
+                <Typography variant="body1" gutterBottom>
+                  Total Patients: {totalPatients}
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Total Appointments Today: {totalAppointmentsToday}
+                </Typography>
+                <TextField
+                  label="Enter Patient ID"
+                  variant="outlined"
+                  value={patientId}
+                  onChange={handlePatientIdChange}
+                  fullWidth
+                />
+                <Button variant="contained" color="primary" onClick={handleSearchPatient} sx={{ mt: 2 }}>
+                  Search Patient
+                </Button>
+              </Box>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            {selectedPatient && (
+              <Paper>
+                <Box p={2}>
+                  <Typography variant="h5" gutterBottom>
+                    Patient Details
+                  </Typography>
+                  <Typography variant="body1">Name: {selectedPatient.name}</Typography>
+                  <Typography variant="body1">Mobile: {selectedPatient.mobile}</Typography>
+                  <Typography variant="body1">Age: {selectedPatient.age}</Typography>
+                  <Typography variant="body1">Address: {selectedPatient.address}</Typography>
 
-        <Box mt={3}>
-          <TextField
-            label="Enter Patient ID"
-            variant="outlined"
-            value={patientId}
-            onChange={handlePatientIdChange}
-            fullWidth
-          />
-          <Button variant="contained" color="primary" onClick={handleSearchPatient} sx={{ mt: 2 }}>
-            Search Patient
-          </Button>
-        </Box>
+                  <Typography variant="h5" gutterBottom mt={3}>
+                    Files
+                  </Typography>
+                  <ul>
+                    {selectedPatient.files.map((file, index) => (
+                      <ListItem key={index}>
+                        <ListItemText
+                          primary={
+                            <a href={file.data} target="_blank" rel="noopener noreferrer">
+                              View File - Uploaded by {file.uploadedBy} on {file.date}
+                            </a>
+                          }
+                        />
+                      </ListItem>
+                    ))}
+                  </ul>
 
-        {selectedPatient && (
-          <Box mt={3}>
-            <Typography variant="h5" gutterBottom>
-              Patient Details
-            </Typography>
-            <Typography variant="body1">Name: {selectedPatient.name}</Typography>
-            <Typography variant="body1">Mobile: {selectedPatient.mobile}</Typography>
-            <Typography variant="body1">Age: {selectedPatient.age}</Typography>
-            <Typography variant="body1">Address: {selectedPatient.address}</Typography>
+                  <Box mt={2}>
+                    <input type="file" onChange={handleFileUpload} />
+                    {fileUploadError && <Alert severity="error">{fileUploadError}</Alert>}
+                  </Box>
 
-            <Typography variant="h5" gutterBottom mt={3}>
-              Files
-            </Typography>
-            <ul>
-              {selectedPatient.files.map((file, index) => (
-                <li key={index}>
-                  <a href={file.data} target="_blank" rel="noopener noreferrer">
-                    View File - Uploaded by {file.uploadedBy} on {file.date}
-                  </a>
-                </li>
-              ))}
-            </ul>
-
-            <Box mt={2}>
-              <input type="file" onChange={handleFileUpload} />
-              {fileUploadError && <Alert severity="error">{fileUploadError}</Alert>}
-            </Box>
-
-            <Button variant="contained" color="secondary" onClick={handleLogout} sx={{ mt: 2 }}>
-              Logout
-            </Button>
-          </Box>
-        )}
+                  <Button variant="contained" color="secondary" onClick={handleLogout} sx={{ mt: 2 }}>
+                    Logout
+                  </Button>
+                </Box>
+              </Paper>
+            )}
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   );

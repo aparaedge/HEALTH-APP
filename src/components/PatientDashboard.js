@@ -1,6 +1,5 @@
-// src/components/PatientDashboard.js
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Button, Box, Alert } from '@mui/material';
+import { Container, Typography, Button, Box, Grid, ListItem, ListItemText, Paper } from '@mui/material';
 import appointmentCounts from '../data/appointmentCounts.json';
 
 const PatientDashboard = () => {
@@ -79,44 +78,61 @@ const PatientDashboard = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Welcome, {patient.name}
         </Typography>
-        <Typography variant="body1">Mobile: {patient.mobile}</Typography>
-        <Typography variant="body1">Age: {patient.age}</Typography>
-        <Typography variant="body1">Address: {patient.address}</Typography>
-
-        <Typography variant="h5" gutterBottom mt={3}>
-          Files
-        </Typography>
-        <ul>
-          {patient.files.map((file, index) => (
-            <li key={index}>
-              <a href={file.data} target="_blank" rel="noopener noreferrer">
-                View File - Uploaded by {file.uploadedBy} on {file.date}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <Box mt={2}>
-          <input type="file" onChange={handleFileUpload} />
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Paper>
+              <Box p={2}>
+                <Typography variant="body1">Mobile: {patient.mobile}</Typography>
+                <Typography variant="body1">Age: {patient.age}</Typography>
+                <Typography variant="body1">Address: {patient.address}</Typography>
+              </Box>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Paper>
+              <Box p={2}>
+                <Typography variant="h5" gutterBottom>
+                  Files
+                </Typography>
+                <ul>
+                  {patient.files.map((file, index) => (
+                    <ListItem key={index}>
+                      <ListItemText
+                        primary={
+                          <a href={file.data} target="_blank" rel="noopener noreferrer">
+                            View File - Uploaded by {file.uploadedBy} on {file.date}
+                          </a>
+                        }
+                      />
+                    </ListItem>
+                  ))}
+                </ul>
+                <input type="file" onChange={handleFileUpload} />
+              </Box>
+            </Paper>
+          </Grid>
+        </Grid>
+        <Box mt={3}>
+          <Typography variant="h5" gutterBottom>
+            Today's Appointment
+          </Typography>
+          {appointment === 'N/A' || !appointment ? (
+            <Button variant="contained" color="primary" onClick={handleGenerateAppointment}>
+              Generate New Appointment
+            </Button>
+          ) : (
+            <Typography variant="body1">Appointment Number: {appointment}</Typography>
+          )}
         </Box>
-
-        <Typography variant="h5" gutterBottom mt={3}>
-          Today's Appointment
-        </Typography>
-        {appointment === 'N/A' || !appointment ? (
-          <Button variant="contained" color="primary" onClick={handleGenerateAppointment}>
-            Generate New Appointment
+        <Box mt={3}>
+          <Button variant="contained" color="secondary" onClick={handleLogout}>
+            Logout
           </Button>
-        ) : (
-          <Typography variant="body1">Appointment Number: {appointment}</Typography>
-        )}
-
-        <Button variant="contained" color="secondary" onClick={handleLogout} mt={3}>
-          Logout
-        </Button>
+        </Box>
       </Box>
     </Container>
   );
 };
 
 export default PatientDashboard;
+
