@@ -1,0 +1,51 @@
+[
+    {
+      "patientId": "patient1",
+      "name": "John Doe",
+      "mobile": "1234567890",
+      "age": 30,
+      "address": "123 Main St",
+      "files": [
+        {
+          "data": "https://via.placeholder.com/150/0000FF/808080?text=File1",
+          "date": "2024-06-06",
+          "file.uploadedBy": "doctor"
+        },
+        {
+          "data": "https://via.placeholder.com/150/FF0000/FFFFFF?text=File2",
+          "date": "2024-06-07",
+          "file.uploadedBy": "patient"
+        }
+      ],
+      "appointments": {
+        "2024-06-06": "N/A",
+        "2024-06-07": "N/A",
+        "2024-06-08": "APT-67890"
+      }
+    },
+    {
+      "patientId": "patient2",
+      "name": "Jane Smith",
+      "mobile": "0987654321",
+      "age": 25,
+      "address": "456 Elm St",
+      "files": [
+        {
+          "data": "https://via.placeholder.com/150/00FF00/000000?text=File1",
+          "date": "2024-06-06",
+          "file.uploadedBy": "patient"
+        },
+        {
+          "data": "https://via.placeholder.com/150/FFFF00/000000?text=File2",
+          "date": "2024-06-07",
+          "file.uploadedBy": "patient"
+        }
+      ],
+      "appointments": {
+        "2024-06-06": "N/A",
+        "2024-06-07": "APT-23456",
+        "2024-06-08": "N/A"
+      }
+    }
+  ]
+  

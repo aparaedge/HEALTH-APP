@@ -1,31 +1,29 @@
-// src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import DoctorLogin from './components/DoctorLogin';
-import PatientLogin from './components/PatientLogin';
-import DoctorDashboard from './components/DoctorDashboard';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Home from './components/Home';
+import ExistingPatient from './components/ExistingPatient';
+import NewPatient from './components/NewPatient';
 import PatientDashboard from './components/PatientDashboard';
+import DoctorLogin from './components/DoctorLogin';
+import DoctorDashboard from './components/DoctorDashboard';
 
 const App = () => {
+  const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+  const isDoctorLoggedIn = localStorage.getItem('loggedInDoctor') === 'true';
+
   return (
     <Router>
-      <Switch>
-        <Route path="/doctor-login" component={DoctorLogin} />
-        <Route path="/patient-login" component={PatientLogin} />
-        <Route path="/doctor-dashboard" component={DoctorDashboard} />
-        <Route path="/patient-dashboard" component={PatientDashboard} />
-        <Route path="/" exact component={HomePage} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={!isLoggedIn ? <Home /> : <Navigate to="/patient-dashboard" />} />
+        <Route path="/existing-patient" element={!isLoggedIn ? <ExistingPatient /> : <Navigate to="/patient-dashboard" />} />
+        <Route path="/new-patient" element={!isLoggedIn ? <NewPatient /> : <Navigate to="/patient-dashboard" />} />
+        <Route path="/patient-dashboard" element={isLoggedIn ? <PatientDashboard /> : <Navigate to="/" />} />
+        <Route path="/doctor-login" element={!isDoctorLoggedIn ? <DoctorLogin /> : <Navigate to="/doctor-dashboard" />} />
+        <Route path="/doctor-dashboard" element={isDoctorLoggedIn ? <DoctorDashboard /> : <Navigate to="/doctor-login" />} />
+        {/* Other routes will be added later */}
+      </Routes>
     </Router>
   );
 };
-
-const HomePage = () => (
-  <div>
-    <h1>Welcome to the Health App</h1>
-    <a href="/doctor-login">Doctor Login</a>
-    <a href="/patient-login">Patient Login</a>
-  </div>
-);
 
 export default App;
