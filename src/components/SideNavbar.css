@@ -1,0 +1,159 @@
+/* src/SideNavbar.css */
+:root {
+  --white: #ffffff;
+  --highlight-color: #509cdb;
+}
+
+.side-navbar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #152259;
+  transition: transform 0.3s ease-in-out;
+  overflow-x: hidden;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  transform: translateX(-250px); /* Hidden by default on smaller screens */
+}
+
+.side-navbar.open {
+  transform: translateX(0);
+}
+
+@media (min-width: 768px) {
+  .side-navbar {
+      transform: translateX(0); /* Always visible on larger screens */
+  }
+  .toggle-button {
+      display: none; /* Hide toggle button on larger screens */
+  }
+}
+
+.toggle-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #152259;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  z-index: 1000; /* Ensure it is on top */
+  border-radius: 5px; /* Rounded corners for toggle button */
+}
+
+.toggle-button:hover {
+  background-color: #1e3a8a;
+}
+
+.nav {
+  margin-top: 20px;
+}
+
+.nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.nav li {
+  padding: 20px;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  transition: background-color 0.3s, padding-left 0.3s, transform 0.3s, border-right 0.3s, border-radius 0.3s;
+  border-radius: 5px; /* Add border radius for all sides */
+  padding: 10px;
+}
+
+/* Add hover styles */
+.nav a:hover,
+.nav a:focus {
+  background-color: #1e3a8a;
+  border-right: 4px solid var(--white); /* Add right border on hover */
+}
+
+.nav a:hover svg,
+.nav a:focus svg {
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+}
+
+.nav a.active {
+  background-color: var(--highlight-color); /* Highlight color for active menu */
+}
+
+.nav a .menu-text {
+  margin-left: 10px;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+  color: white;
+}
+
+.logo-company {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.company-info {
+  text-align: center;
+}
+
+.company-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px; /* Adjust margin for spacing */
+  color: white;
+}
+
+.divider {
+  height: 1px;
+  background-color: #fff;
+  width: 80%;
+  margin: 0 auto 20px; /* Adjust margin for spacing */
+}
+
+.logout {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.logout-button {
+  background-color: var(--highlight-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  border-radius: 20px; /* Rounded corners for logout button */
+}
+
+.logout-button:hover {
+  background-color: #1e3a8a;
+}
+
+/* Touch-friendly styles */
+@media (hover: none) {
+  .nav a {
+      padding: 15px; /* Increase padding for touch targets */
+  }
+}

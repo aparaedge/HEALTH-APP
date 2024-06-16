@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './searchBar.css';
 
 function SearchBar({ patients }) {
   const [searchVal, setSearchVal] = useState('');
+  const navigate = useNavigate();
 
   const handleInput = (e) => {
     setSearchVal(e.target.value);
@@ -10,6 +12,10 @@ function SearchBar({ patients }) {
 
   const handleClearBtn = () => {
     setSearchVal('');
+  };
+
+  const handlePatientClick = (patientId) => {
+    navigate(`/patients/${patientId}`);
   };
 
   const filteredPatients = patients.filter((patient) => {
@@ -39,7 +45,11 @@ function SearchBar({ patients }) {
         <div className="results-wrap">
           {filteredPatients.length > 0 ? (
             filteredPatients.map((patient) => (
-              <div key={patient.patientId} className='patient-details'>
+              <div 
+                key={patient.patientId} 
+                className='patient-details'
+                onClick={() => handlePatientClick(patient.patientId)}
+              >
                 <p><span>ID:</span> {patient.patientId}</p>
                 <p><span>Name:</span> {patient.name}</p>
               </div>

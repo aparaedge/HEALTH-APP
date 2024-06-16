@@ -1,0 +1,86 @@
+/* src/Dashboard.css */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .welcome-message {
+    padding-left: 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .notification-button,
+  .support-button {
+    background-color: #152259;
+    color: white;
+    border: none;
+    padding: 12px 20px; /* Increase padding to make buttons slightly bigger */
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    font-size: 16px; /* Adjust font size for better readability */
+  }
+
+  /* Dashboard.css */
+
+.cards-container {
+  display: flex;
+  justify-content: center; /* Center cards horizontally */
+  gap: 20px; /* Adjust gap between cards */
+}
+
+.card {
+  flex: 1; /* Equal width for both cards */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 300px; /* Limit maximum width for responsiveness */
+}
+
+@media (min-width: 768px) {
+  .cards-container {
+    max-width: 800px; /* Adjust maximum width for larger screens */
+    margin: 0 auto; /* Center align cards horizontally */
+  }
+  
+  .card {
+    min-height: 100px; /* Minimum height for both cards */
+  }
+}
+
+  
+  .notification-button:hover,
+  .support-button:hover {
+    background-color: #1e3a8a;
+  }
+  
+  .support-button svg {
+    margin-right: 5px; /* Add some margin between icon and text */
+  }
+  

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Container, Typography, TextField, Button, Box, Alert, Grid, Paper, ListItem, ListItemText } from '@mui/material';
 import patientsData from '../data/patients.json';
 import appointmentCounts from '../data/appointmentCounts.json';
-import SearchBar from './searchBar';
 
 const DoctorDashboard = () => {
   const [patientId, setPatientId] = useState('');
@@ -83,7 +82,6 @@ const DoctorDashboard = () => {
                   Total Appointments Today: {totalAppointmentsToday}
                 </Typography>
                 <div>
-                  <SearchBar patients={patientsData} />
                 </div>
                 <TextField
                   label="Enter Patient ID"

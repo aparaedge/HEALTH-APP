@@ -6,7 +6,7 @@ import NewPatient from './components/NewPatient';
 import PatientDashboard from './components/PatientDashboard';
 import DoctorLogin from './components/DoctorLogin';
 import DoctorDashboard from './components/DoctorDashboard';
-
+import Dashboard from './components/DoctorDashboardV2';
 const App = () => {
   const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
   const isDoctorLoggedIn = localStorage.getItem('loggedInDoctor') === 'true';
@@ -20,6 +20,7 @@ const App = () => {
         <Route path="/patient-dashboard" element={isLoggedIn ? <PatientDashboard /> : <Navigate to="/" />} />
         <Route path="/doctor-login" element={!isDoctorLoggedIn ? <DoctorLogin /> : <Navigate to="/doctor-dashboard" />} />
         <Route path="/doctor-dashboard" element={isDoctorLoggedIn ? <DoctorDashboard /> : <Navigate to="/doctor-login" />} />
+        <Route path="/doctor-dashboard-v2" element={isDoctorLoggedIn ? <Dashboard /> : <Navigate to="/doctor-login" />} />
         {/* Other routes will be added later */}
       </Routes>
     </Router>

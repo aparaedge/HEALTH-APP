@@ -1,0 +1,52 @@
+/* Card.css */
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto; /* Ensure height adjusts based on content */
+    min-height: 150px; /* Minimum height for consistent appearance */
+  }
+  
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    flex-grow: 1; /* Allow content to stretch */
+  }
+  
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  
+  .card-icon {
+    margin-right: 12px;
+    font-size: 24px;
+  }
+  
+  .card-main-text {
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .card-sub-text {
+    font-size: 16px;
+    color: #666;
+  }
+  
+  @media (min-width: 768px) {
+    .card {
+      min-height: 120px; /* Increase minimum height for bigger screens */
+    }
+  }
+  
