@@ -35,7 +35,7 @@ const SideNavbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/patients" activeClassName="active">
+              <NavLink to="/patients/patient1" activeClassName="active">
                 <FontAwesomeIcon icon={faUsers} />
                 <span className="menu-text">Patients</span>
               </NavLink>

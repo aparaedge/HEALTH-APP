@@ -11,6 +11,7 @@ import './PatientDetails.css';
 const PatientDetails = () => {
   const { id } = useParams();
   const [patient, setPatient] = useState(null);
+  const [files, setFiles] = useState([]);
 
   useEffect(() => {
     // Simulate fetching patient data from patientsData based on id
@@ -27,10 +28,62 @@ const PatientDetails = () => {
     return <p>Loading...</p>; // You can replace with a proper loading component
   }
 
-  const handleShow = () => {
+  const handleShow = (fileData) => {
     console.log("her")
-    let fileData = patient.files["data"]
-    window.open(fileData, URL(fileData));
+    console.log(fileData)
+    window.open(fileData, '_blank');
+  };
+
+  const handleFileChange = (files) => {
+    console.log(files);
+    setFiles(files)
+  }
+
+  const handleFileUploadSubmit = async (selectedFiles) => { 
+    const file = selectedFiles[0];
+    console.log(file)
+    if (file && patient) {
+      const reader = new FileReader();
+      reader.onload = (upload) => {
+        const newFile = {
+          data: upload.target.result,
+          date: new Date().toISOString().split('T')[0], // Get today's date in format YYYY-MM-DD
+          uploadedBy: 'doctor',
+          fileName: "prescription 3"
+        };
+        
+        const updatedFiles = [...patient.files, newFile];
+        const updatedPatient = { ...patient, files: updatedFiles };
+
+        const patientIndex = patientsData.findIndex((p) => p.patientId === patient.patientId);
+        patientsData[patientIndex] = updatedPatient;
+
+        // Update localStorage
+        localStorage.setItem('patientsData', JSON.stringify(patientsData));
+        setPatient(updatedPatient);
+        // setFileUploadError('');
+      };
+      reader.readAsDataURL(file);
+    } else {
+      console.error('Please select a file and patient first.');
+    }
+  }
+
+
+  const handleDownload = (fileData) => {
+    fetch(fileData, {
+        mode : 'no-cors',
+      })
+        .then(response => response.blob())
+        .then(blob => {
+        let blobUrl = window.URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.download = fileData.replace(/^.*[\\\/]/, '');
+        a.href = blobUrl;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      })
   };
 
   // Function to get initials from patient's name
@@ -79,35 +132,27 @@ const PatientDetails = () => {
                     readOnly className="text-field-input" />
                 </div>
             </div>
-
+          
             <div className='medical-details-history-record'> 
                 <label className="record-name">Medical History</label>
-                <div className="upload-file-container">
-                    <FontAwesomeIcon className='icon-book' icon={faBookMedical} />
-                    <label> X-Ray</label>
-                    <div className='history-action'> 
-                        <FontAwesomeIcon className='icon-book' icon={faEye} onClick={() => handleShow()}/>
-                        <FontAwesomeIcon className='icon-book' icon={faDownload} />
-                    </div>
-                </div>
-                <div className="text-field-container">
-                    <label className="text-field-label">Last Visit</label>
-                    <input type="text" value={patient.lastVisit}
-                    readOnly className="text-field-input" />
-                </div>
-
-                <div className="text-field-container">
-                    <label className="text-field-label">Treatment</label>
-                    <input type="text" value="Eye Checkup"
-                    readOnly className="text-field-input" />
-                </div>
+                {patient.files.map((file, index) => (
+                    <div className="upload-file-container">
+                       <FontAwesomeIcon className='icon-book' icon={faBookMedical} />
+                       <span> {file["fileName"]}</span>
+                       {/* <label> {patient.files[{index}]["fileName"]}</label> */}
+                       <div className='history-action'> 
+                           <FontAwesomeIcon className='icon-book' icon={faEye} onClick={() => handleShow(file["data"])}/>
+                           <FontAwesomeIcon className='icon-book' icon={faDownload} onClick={() => handleDownload(file["data"])} />
+                       </div>
+                   </div>
+                ))}
             </div>
         </div>
 
         <div className="box-record">
             <div className='medical-upload-box-record'> 
                 <label className="record-name">Upload Prescription</label>
-                <FileUploadComponent></FileUploadComponent>
+                <FileUploadComponent onFileUploadSubmit={handleFileUploadSubmit} onFileChange={handleFileChange}></FileUploadComponent>
             </div>
         </div>
        </div>

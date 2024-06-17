@@ -8,14 +8,16 @@
       "lastVisit": "27 May, 2024",
       "files": [
         {
-          "data": "https://via.placeholder.com/150/0000FF/808080?text=File1",
+          "data": "https://drive.google.com/file/d/1SSfHpslmZohrYgqqLOhXFu8yewQm7SBm/view?usp=sharing",
           "date": "2024-06-06",
-          "file.uploadedBy": "doctor"
+          "file.uploadedBy": "doctor",
+          "fileName": "Prescription"
         },
         {
-          "data": "https://via.placeholder.com/150/FF0000/FFFFFF?text=File2",
+          "data": "https://drive.google.com/file/d/1SSfHpslmZohrYgqqLOhXFu8yewQm7SBm/view?usp=sharing",
           "date": "2024-06-07",
-          "file.uploadedBy": "patient"
+          "file.uploadedBy": "patient",
+          "fileName": "Prescription 2" 
         }
       ],
       "appointments": {
@@ -35,12 +37,15 @@
         {
           "data": "https://via.placeholder.com/150/00FF00/000000?text=File1",
           "date": "2024-06-06",
-          "file.uploadedBy": "patient"
+          "file.uploadedBy": "patient",
+          "fileName": "Prescription"
+        
         },
         {
           "data": "https://via.placeholder.com/150/FFFF00/000000?text=File2",
           "date": "2024-06-07",
-          "file.uploadedBy": "patient"
+          "file.uploadedBy": "patient",
+          "fileName": "Prescription 2"
         }
       ],
       "appointments": {
