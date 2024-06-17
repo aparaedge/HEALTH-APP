@@ -181,6 +181,39 @@
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
+
+.medical-details-history-record {
+    padding: 0.95em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.upload-file-container {
+    padding: 0.95em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-direction: row;
+    font-size: 1.5em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.icon-book {
+    color: #509cdb;
+    cursor: pointer;
+    padding: 2px;
+}
+
+
 @media (max-width: 768px) {
     .patientDetails-container {
         flex-direction: column;

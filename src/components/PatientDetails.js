@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import patientsData from '../data/patients.json'; 
 import SideNavbar from './SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeadphones } from '@fortawesome/free-solid-svg-icons';
+import { faHeadphones, faBookMedical, faEye, faDownload } from '@fortawesome/free-solid-svg-icons';
 import FileUploadComponent from './fileUploadComponent';
 import './PatientDetails.css'; 
 
@@ -26,6 +26,12 @@ const PatientDetails = () => {
   if (!patient) {
     return <p>Loading...</p>; // You can replace with a proper loading component
   }
+
+  const handleShow = () => {
+    console.log("her")
+    let fileData = patient.files["data"]
+    window.open(fileData, URL(fileData));
+  };
 
   // Function to get initials from patient's name
   const getInitials = (name) => {
@@ -74,12 +80,15 @@ const PatientDetails = () => {
                 </div>
             </div>
 
-            <div className='medical-details-box-record'> 
-                <label className="record-name">Medical Details</label>
-                <div className="text-field-container">
-                    <label className="text-field-label">Age</label>
-                    <input type="text" value={patient.age}
-                    readOnly className="text-field-input" />
+            <div className='medical-details-history-record'> 
+                <label className="record-name">Medical History</label>
+                <div className="upload-file-container">
+                    <FontAwesomeIcon className='icon-book' icon={faBookMedical} />
+                    <label> X-Ray</label>
+                    <div className='history-action'> 
+                        <FontAwesomeIcon className='icon-book' icon={faEye} onClick={() => handleShow()}/>
+                        <FontAwesomeIcon className='icon-book' icon={faDownload} />
+                    </div>
                 </div>
                 <div className="text-field-container">
                     <label className="text-field-label">Last Visit</label>
