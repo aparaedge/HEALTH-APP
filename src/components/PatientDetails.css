@@ -1,0 +1,258 @@
+.patientDetails-container {
+    display: flex;
+}
+
+.patient-details-content {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.patientContents {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.patient-initials {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.initials-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #152259;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.patient-info {
+    flex: 1;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.notification-button,
+.support-button {
+    background-color: #152259;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    align-items: center;
+    font-size: 16px;
+}
+
+.patient-details-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.patient-details-rectangle {
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.patient-details {
+    padding: 10px;
+}
+
+.detail-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    padding-top: 30px; /* To make space for the label */
+}
+
+.detail-label {
+    position: absolute;
+    top: -10px; /* Adjust as needed */
+    left: 10px;
+    background-color: #f9f9f9;
+    padding: 0 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.detail-content {
+    margin-top: 10px;
+}
+
+.medical-history {
+    margin-top: 20px;
+}
+
+.upload-file-section {
+    margin-top: 20px;
+}
+
+.patient-label {
+    font-size: 12px;
+    color: #555;
+    margin-top: 5px;
+}
+
+.text-field-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+    position: relative;
+}
+
+.text-field-label {
+    font-size: 1em;
+    font-weight: bold;
+    background: white;
+    padding: 0 10px;
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    transition: all 0.3s ease;
+}
+
+.text-field-input {
+    padding: 0.75em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.text-field-input:focus {
+    border-color: #007BFF;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+.patient-records-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.box-record {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.medical-details-box-record {
+    padding: 0.95em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.medical-upload-box-record {
+    padding: 0.95em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+
+.medical-details-history-record {
+    padding: 0.95em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.upload-file-container {
+    padding: 0.95em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-direction: row;
+    font-size: 1.5em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.icon-book {
+    color: #509cdb;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.image-viewer {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 768px) {
+    .patientDetails-container {
+        flex-direction: column;
+    }
+
+    .patientContents {
+        padding: 20px;
+        margin-top: 30px;
+        margin-left: 0; /* Remove margin on small screens */
+    }
+
+    .initials-circle {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    .text-field-input {
+        font-size: 0.9em;
+        padding: 0.5em;
+    }
+
+    .text-field-label {
+        font-size: 0.9em;
+    }
+
+    .patient-records-content {
+        flex-direction: column;
+    }
+
+    .box-record {
+        width: 100%;
+    }
+}
