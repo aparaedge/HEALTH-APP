@@ -20,7 +20,7 @@ const SideNavbar = () => {
       </button>
       <div className={`side-navbar ${isOpen ? 'open' : ''}`}>
           <div className="logo-company">
-            <img src="logo.png" alt="Logo" className="logo" />
+            <img src="/logo.png" alt="Logo" className="logo" />
             <div className="company-info">
               <div className="company-name">ABC Clinic</div>
               <div className="divider"></div>
@@ -29,7 +29,7 @@ const SideNavbar = () => {
         <nav className="nav">
           <ul>
             <li>
-              <NavLink to="/dashboard" activeClassName="active">
+              <NavLink to="/doctor-dashboard-v2" activeClassName="active">
                 <FontAwesomeIcon icon={faTachometerAlt} />
                 <span className="menu-text">Dashboard</span>
               </NavLink>
