@@ -5,6 +5,7 @@ import patientsData from '../data/patients.json';
 import SideNavbar from './SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeadphones } from '@fortawesome/free-solid-svg-icons';
+import FileUploadComponent from './fileUploadComponent';
 import './PatientDetails.css'; 
 
 const PatientDetails = () => {
@@ -51,10 +52,57 @@ const PatientDetails = () => {
                 </button>
             </div>
         </div>
+       <div className='patient-records-content'>
+        <div className="box-record">
+            <div className='medical-details-box-record'> 
+                <label className="record-name">Medical Details</label>
+                <div className="text-field-container">
+                    <label className="text-field-label">Age</label>
+                    <input type="text" value={patient.age}
+                    readOnly className="text-field-input" />
+                </div>
+                <div className="text-field-container">
+                    <label className="text-field-label">Last Visit</label>
+                    <input type="text" value={patient.lastVisit}
+                    readOnly className="text-field-input" />
+                </div>
 
-      </div>
-     
-     
+                <div className="text-field-container">
+                    <label className="text-field-label">Treatment</label>
+                    <input type="text" value="Eye Checkup"
+                    readOnly className="text-field-input" />
+                </div>
+            </div>
+
+            <div className='medical-details-box-record'> 
+                <label className="record-name">Medical Details</label>
+                <div className="text-field-container">
+                    <label className="text-field-label">Age</label>
+                    <input type="text" value={patient.age}
+                    readOnly className="text-field-input" />
+                </div>
+                <div className="text-field-container">
+                    <label className="text-field-label">Last Visit</label>
+                    <input type="text" value={patient.lastVisit}
+                    readOnly className="text-field-input" />
+                </div>
+
+                <div className="text-field-container">
+                    <label className="text-field-label">Treatment</label>
+                    <input type="text" value="Eye Checkup"
+                    readOnly className="text-field-input" />
+                </div>
+            </div>
+        </div>
+
+        <div className="box-record">
+            <div className='medical-upload-box-record'> 
+                <label className="record-name">Upload Prescription</label>
+                <FileUploadComponent></FileUploadComponent>
+            </div>
+        </div>
+       </div>
+      </div> 
     </div>
   );
 };

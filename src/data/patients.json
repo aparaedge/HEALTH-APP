@@ -5,6 +5,7 @@
       "mobile": "1234567890",
       "age": 30,
       "address": "123 Main St",
+      "lastVisit": "27 May, 2024",
       "files": [
         {
           "data": "https://via.placeholder.com/150/0000FF/808080?text=File1",
@@ -26,6 +27,7 @@
     {
       "patientId": "patient2",
       "name": "Jane Smith",
+      "lastVisit": "30 May, 2024",
       "mobile": "0987654321",
       "age": 25,
       "address": "456 Elm St",

@@ -11,7 +11,7 @@ const Home = () => {
       if (userType === 'patient') {
         window.location.href = ('/patient-dashboard');
       } else if (userType === 'doctor') {
-        window.location.href = ('/doctor-dashboard');
+        window.location.href = ('/doctor-dashboard-v2');
       }
     }
   }, );

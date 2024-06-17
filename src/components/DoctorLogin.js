@@ -13,7 +13,7 @@ const DoctorLogin = () => {
     const doctor = doctorsData.find(doc => doc.username === username && doc.password === password);
     if (doctor) {
       localStorage.setItem('loggedInDoctor', 'true');
-      window.location.href = '/doctor-dashboard';
+      window.location.href = '/doctor-dashboard-v2';
     } else {
       setError('Invalid username or password');
     }

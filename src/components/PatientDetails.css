@@ -1,23 +1,24 @@
-/* src/PatientDetails.css */
-
 .patientDetails-container {
     display: flex;
 }
-  
+
 .patient-details-content {
     flex: 1;
     display: flex;
     justify-content: space-between;
-    padding: 20px;
-    margin-left: 250px; /* Adjusted to match SideNavbar width */
 }
-  
+
+.patientContents {
+    margin-left: 250px;
+    padding: 20px;
+}
+
 .patient-initials {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
 }
-  
+
 .initials-circle {
     width: 70px;
     height: 70px;
@@ -31,17 +32,17 @@
     font-weight: bold;
     margin-right: 20px;
 }
-  
+
 .patient-info {
     flex: 1;
 }
-  
+
 .actions {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 20px;
 }
-  
+
 .notification-button,
 .support-button {
     background-color: #152259;
@@ -54,24 +55,24 @@
     align-items: center;
     font-size: 16px;
 }
-  
+
 .patient-details-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
-  
+
 .patient-details-rectangle {
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
 }
-  
+
 .patient-details {
     padding: 10px;
 }
-  
+
 .detail-box {
     border: 1px solid #ccc;
     padding: 10px;
@@ -80,7 +81,7 @@
     position: relative;
     padding-top: 30px; /* To make space for the label */
 }
-  
+
 .detail-label {
     position: absolute;
     top: -10px; /* Adjust as needed */
@@ -90,25 +91,25 @@
     font-weight: bold;
     color: #555;
 }
-  
+
 .detail-content {
     margin-top: 10px;
 }
-  
+
 .medical-history {
     margin-top: 20px;
 }
-  
+
 .upload-file-section {
     margin-top: 20px;
 }
-  
+
 .patient-label {
     font-size: 12px;
     color: #555;
     margin-top: 5px;
 }
-  
+
 .text-field-container {
     display: flex;
     flex-direction: column;
@@ -142,14 +143,50 @@
     outline: none;
 }
 
+.patient-records-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
 
+.box-record {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.medical-details-box-record {
+    padding: 0.95em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.medical-upload-box-record {
+    padding: 0.95em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
 
 @media (max-width: 768px) {
     .patientDetails-container {
         flex-direction: column;
     }
 
-    .patient-details-content {
+    .patientContents {
         padding: 20px;
         margin-top: 30px;
         margin-left: 0; /* Remove margin on small screens */
@@ -168,5 +205,13 @@
 
     .text-field-label {
         font-size: 0.9em;
+    }
+
+    .patient-records-content {
+        flex-direction: column;
+    }
+
+    .box-record {
+        width: 100%;
     }
 }
