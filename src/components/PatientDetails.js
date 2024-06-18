@@ -29,27 +29,23 @@ const PatientDetails = () => {
   }
 
   const handleShow = (fileData) => {
-    console.log("her")
-    console.log(fileData)
     window.open(fileData, '_blank');
   };
 
   const handleFileChange = (files) => {
-    console.log(files);
     setFiles(files)
   }
 
   const handleFileUploadSubmit = async (selectedFiles) => { 
-    const file = selectedFiles[0];
-    console.log(file)
-    if (file && patient) {
+    const file = files[0];
+    if (file && file instanceof Blob && patient)  {
       const reader = new FileReader();
       reader.onload = (upload) => {
         const newFile = {
           data: upload.target.result,
           date: new Date().toISOString().split('T')[0], // Get today's date in format YYYY-MM-DD
           uploadedBy: 'doctor',
-          fileName: "prescription 3"
+          fileName: file.name
         };
         
         const updatedFiles = [...patient.files, newFile];
