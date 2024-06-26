@@ -1,21 +1,24 @@
-// src/components/DoctorLogin.js
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
-import doctorsData from '../data/doctors.json';
+import axios from 'axios';
 
 const DoctorLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const doctor = doctorsData.find(doc => doc.username === username && doc.password === password);
-    if (doctor) {
-      localStorage.setItem('loggedInDoctor', 'true');
-      window.location.href = '/doctor-dashboard-v2';
-    } else {
-      setError('Invalid username or password');
+    try {
+      const response = await axios.post('http://localhost:3000/api/doctor/login', { username, password });
+      if (response.data.success) {
+        localStorage.setItem('loggedInDoctor', 'true');
+        window.location.href = '/doctor-dashboard-v2';
+      } else {
+        setError('Invalid username or password');
+      }
+    } catch (error) {
+      setError('Server error. Please try again later.');
     }
   };
 

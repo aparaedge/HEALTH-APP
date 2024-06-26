@@ -1,16 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Button, Box, Grid, ListItem, ListItemText, Paper } from '@mui/material';
-import appointmentCounts from '../data/appointmentCounts.json';
+import axios from 'axios';
 
 const PatientDashboard = () => {
-  const [patient, setPatient] = useState(JSON.parse(localStorage.getItem('currentPatient')));
+  const [patient, setPatient] = useState(null);
   const [appointment, setAppointment] = useState(null);
   const today = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
-    const todaysAppointment = patient.appointments[today];
-    setAppointment(todaysAppointment);
-  }, [patient, today]);
+    const fetchPatientData = async () => {
+      try {
+        const storedPatient = JSON.parse(localStorage.getItem('currentPatient'));
+        if (storedPatient) {
+          setPatient(storedPatient);
+          const todaysAppointment = storedPatient.appointments[today];
+          setAppointment(todaysAppointment);
+        } else {
+          // Redirect to login if no patient data found
+          window.location.href = '/';
+        }
+      } catch (error) {
+        console.error('Error fetching patient data:', error);
+        // Handle error as needed (e.g., show error message)
+      }
+    };
+
+    fetchPatientData();
+  }, [today]);
 
   const handleLogout = () => {
     localStorage.removeItem('loggedIn');
@@ -22,55 +38,50 @@ const PatientDashboard = () => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (upload) => {
-        const newFile = {
-          data: upload.target.result,
-          date: new Date().toISOString().split('T')[0], // Get today's date in format YYYY-MM-DD.
-          uploadedBy: 'patient',
-        };
-        const updatedFiles = [...patient.files, newFile];
-        const updatedPatient = { ...patient, files: updatedFiles };
-        setPatient(updatedPatient);
-        localStorage.setItem('currentPatient', JSON.stringify(updatedPatient));
+      reader.onload = async (upload) => {
+        try {
+          const fileUrl = upload.target.result; // Assuming this is a URL or reference to where the file is stored
+          const response = await axios.post('http://localhost:3000/api/patients/upload-file', {
+            patientId: patient.patientId,
+            url: fileUrl, // Send the URL instead of the full file data
+            uploadedBy: 'patient',
+          });
 
-        const storedPatientsData = JSON.parse(localStorage.getItem('patientsData')) || [];
-        const patientIndex = storedPatientsData.findIndex((p) => p.patientId === patient.patientId);
-        if (patientIndex !== -1) {
-          storedPatientsData[patientIndex] = updatedPatient;
-          localStorage.setItem('patientsData', JSON.stringify(storedPatientsData));
+          const updatedPatient = response.data;
+          setPatient(updatedPatient);
+          localStorage.setItem('currentPatient', JSON.stringify(updatedPatient));
+        } catch (error) {
+          console.error('Error uploading file:', error);
+          // Handle error as needed (e.g., show error message)
         }
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleGenerateAppointment = () => {
-    const appointmentCount = appointmentCounts[today] || 0;
-    const newAppointmentNumber = appointmentCount + 1;
-    const newAppointment = `APT-${newAppointmentNumber}`;
-    const updatedAppointments = { ...patient.appointments, [today]: newAppointment };
-    const updatedPatient = { ...patient, appointments: updatedAppointments };
+  const handleGenerateAppointment = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/patients/generate-appointment', {
+        patientId: patient.patientId,
+      });
 
-    setPatient(updatedPatient);
-    localStorage.setItem('currentPatient', JSON.stringify(updatedPatient));
-
-    const storedPatientsData = JSON.parse(localStorage.getItem('patientsData')) || [];
-    const patientIndex = storedPatientsData.findIndex((p) => p.patientId === patient.patientId);
-    if (patientIndex !== -1) {
-      storedPatientsData[patientIndex] = updatedPatient;
-      localStorage.setItem('patientsData', JSON.stringify(storedPatientsData));
+      const { appointmentNumber } = response.data;
+      const updatedPatient = { ...patient, appointments: { ...patient.appointments, [today]: appointmentNumber } };
+      setPatient(updatedPatient);
+      localStorage.setItem('currentPatient', JSON.stringify(updatedPatient));
+      setAppointment(appointmentNumber);
+    } catch (error) {
+      console.error('Error generating appointment:', error);
+      // Handle error as needed (e.g., show error message)
     }
-
-    appointmentCounts[today] = newAppointmentNumber;
-    localStorage.setItem('appointmentCounts', JSON.stringify(appointmentCounts));
-
-    setAppointment(newAppointment);
   };
 
   if (!patient) {
-    window.location.href = '/';
-    return null;
+    return null; // Render loading spinner or redirect logic could be implemented here
   }
+
+  // Check if there is already an appointment for today
+  const showGenerateButton = !appointment;
 
   return (
     <Container maxWidth="md">
@@ -99,7 +110,7 @@ const PatientDashboard = () => {
                     <ListItem key={index}>
                       <ListItemText
                         primary={
-                          <a href={file.data} target="_blank" rel="noopener noreferrer">
+                          <a href={file.url} target="_blank" rel="noopener noreferrer">
                             View File - Uploaded by {file.uploadedBy} on {file.date}
                           </a>
                         }
@@ -116,11 +127,12 @@ const PatientDashboard = () => {
           <Typography variant="h5" gutterBottom>
             Today's Appointment
           </Typography>
-          {appointment === 'N/A' || !appointment ? (
+          {showGenerateButton && (
             <Button variant="contained" color="primary" onClick={handleGenerateAppointment}>
               Generate New Appointment
             </Button>
-          ) : (
+          )}
+          {!showGenerateButton && (
             <Typography variant="body1">Appointment Number: {appointment}</Typography>
           )}
         </Box>
@@ -135,4 +147,3 @@ const PatientDashboard = () => {
 };
 
 export default PatientDashboard;
-

@@ -1,23 +1,28 @@
-// src/components/ExistingPatient.js
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
-import patientsData from '../data/patients.json';
+import axios from 'axios';
 
 const ExistingPatient = () => {
   const [mobile, setMobile] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const storedPatientsData = JSON.parse(localStorage.getItem('patientsData')) || patientsData;
-    const patient = storedPatientsData.find(p => p.mobile === mobile);
-    if (patient) {
-      localStorage.setItem('loggedIn', 'true');
-      localStorage.setItem('userType', 'patient');
-      localStorage.setItem('currentPatient', JSON.stringify(patient));
-      window.location.href = ('/patient-dashboard');
-    } else {
-      setError('Patient not found');
+    try {
+      const response = await axios.post('http://localhost:3000/api/patients', { mobile });
+      const patient = response.data;
+      if (patient) {
+        localStorage.setItem('loggedIn', 'true');
+        localStorage.setItem('userType', 'patient');
+        localStorage.setItem('currentPatient', JSON.stringify(patient));
+        window.location.href = '/patient-dashboard';
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        setError('Patient not found');
+      } else {
+        setError('Error fetching patient data');
+      }
     }
   };
 
