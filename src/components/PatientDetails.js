@@ -1,12 +1,11 @@
-// src/PatientDetails.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import patientsData from '../data/patients.json'; 
 import SideNavbar from './SideNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeadphones, faBookMedical, faEye, faDownload } from '@fortawesome/free-solid-svg-icons';
 import FileUploadComponent from './fileUploadComponent';
-import './PatientDetails.css'; 
+import axios from 'axios';
+import './PatientDetails.css';
 
 const PatientDetails = () => {
   const { id } = useParams();
@@ -16,17 +15,18 @@ const PatientDetails = () => {
   const [clearFiles, setClearFiles] = useState(false); // New state for clearing files
 
   useEffect(() => {
-    const foundPatient = patientsData.find(patient => patient.patientId === id);
-    if (foundPatient) {
-      setPatient(foundPatient);
-    } else {
-      setPatient(null);
-    }
-  }, [id]);
+    const fetchPatient = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/patients/${id}`);
+        setPatient(response.data);
+      } catch (error) {
+        console.error('Error fetching patient data:', error);
+        // Handle error as needed (e.g., show error message)
+      }
+    };
 
-  if (!patient) {
-    return <p>Loading...</p>; 
-  }
+    fetchPatient();
+  }, [id]);
 
   const handleShow = (fileData) => {
     window.open(fileData, '_blank');
@@ -40,7 +40,7 @@ const PatientDetails = () => {
     const file = files[0];
     if (file && file instanceof Blob && patient)  {
       const reader = new FileReader();
-      reader.onload = (upload) => {
+      reader.onload =  async (upload) => {
         const newFile = {
           data: upload.target.result,
           date: new Date().toISOString().split('T')[0], 
@@ -51,18 +51,31 @@ const PatientDetails = () => {
         const updatedFiles = [...patient.files, newFile];
         const updatedPatient = { ...patient, files: updatedFiles };
 
-        const patientIndex = patientsData.findIndex((p) => p.patientId === patient.patientId);
-        patientsData[patientIndex] = updatedPatient;
+        const formData = new FormData();
+        formData.append('url', file);
+        formData.append('patientId', patient.patientId);
+        formData.append('uploadedBy', 'doctor');
 
-        localStorage.setItem('patientsData', JSON.stringify(patientsData));
-        setPatient(updatedPatient);
-        setFiles([]); 
-        setClearFiles(true); // Trigger file clearing
-        setUploadStatus("File Uploaded Successfully!"); 
+        try {
+          const response = await axios.post('http://localhost:3000/api/patients/upload-file', formData.json(), {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          const updatedPatient = response.data;
+          setPatient(updatedPatient);
+          setFiles([]); 
+          setClearFiles(true); // Trigger file clearing
+          setUploadStatus("File Uploaded Successfully!"); 
 
-        setTimeout(() => {
-          setUploadStatus("");
-        }, 3000);
+          setTimeout(() => {
+            setUploadStatus("");
+          }, 3000);
+        }
+        catch (error) {
+          console.error('Error uploading file:', error);
+          // Handle error as needed (e.g., show error message)
+        }
       };
       reader.readAsDataURL(file);
     } else {
@@ -70,12 +83,13 @@ const PatientDetails = () => {
     }
   }
 
+
   const handleDownload = (fileData) => {
     fetch(fileData, {
-        mode: 'no-cors',
-      })
-        .then(response => response.blob())
-        .then(blob => {
+      mode: 'no-cors',
+    })
+      .then((response) => response.blob())
+      .then((blob) => {
         let blobUrl = window.URL.createObjectURL(blob);
         let a = document.createElement('a');
         a.download = fileData.replace(/^.*[\\\/]/, '');
@@ -83,7 +97,7 @@ const PatientDetails = () => {
         document.body.appendChild(a);
         a.click();
         a.remove();
-      })
+      });
   };
 
   const getInitials = (name) => {
@@ -91,62 +105,53 @@ const PatientDetails = () => {
     return names[0][0].toUpperCase() + (names.length > 1 ? names[names.length - 1][0].toUpperCase() : '');
   };
 
+  if (!patient) {
+    return <p>Loading...</p>; // You can replace with a proper loading component
+  }
+
   return (
     <div>
       <SideNavbar />
       <div className='patientContents'>
         <div className="patient-details-content">
-            <div className="patient-initials">
-                <div className="initials-circle">{getInitials(patient.name)}</div>
-                <div className="patient-info">
-                    <h2>{patient.name}</h2>
-                    <p className="patient-label">Patient</p>
-                </div>
+          <div className="patient-initials">
+            <div className="initials-circle">{getInitials(patient.name)}</div>
+            <div className="patient-info">
+              <h2>{patient.name}</h2>
+              <p className="patient-label">Patient</p>
             </div>
-            <div className="actions">
-                <button className="support-button">
-                    <FontAwesomeIcon icon={faHeadphones} />
-                    Support
-                </button>
-            </div>
+          </div>
+          <div className="actions">
+            <button className="support-button">
+              <FontAwesomeIcon icon={faHeadphones} />
+              Support
+            </button>
+          </div>
         </div>
-       <div className='patient-records-content'>
-        <div className="box-record">
-            <div className='medical-details-box-record'> 
-                <label className="record-name">Medical Details</label>
-                <div className="text-field-container">
-                    <label className="text-field-label">Age</label>
-                    <input type="text" value={patient.age}
-                    readOnly className="text-field-input" />
-                </div>
-                <div className="text-field-container">
-                    <label className="text-field-label">Last Visit</label>
-                    <input type="text" value={patient.lastVisit}
-                    readOnly className="text-field-input" />
-                </div>
-
-                <div className="text-field-container">
-                    <label className="text-field-label">Treatment</label>
-                    <input type="text" value="Eye Checkup"
-                    readOnly className="text-field-input" />
-                </div>
+        <div className='patient-records-content'>
+          <div className="box-record">
+            <div className='medical-details-box-record'>
+              <label className="record-name">Medical Details</label>
+              <div className="text-field-container">
+                <label className="text-field-label">Age</label>
+                <input type="text" value={patient.age} readOnly className="text-field-input" />
+              </div>
+              {/* Add more fields as needed */}
             </div>
-          
-            <div className='medical-details-history-record'> 
-                <label className="record-name">Medical History</label>
-                {patient.files.map((file, index) => (
-                    <div className="upload-file-container" key={index}>
-                       <FontAwesomeIcon className='icon-book' icon={faBookMedical} />
-                       <span> {file["fileName"]}</span>
-                       <div className='history-action'> 
-                           <FontAwesomeIcon className='icon-book' icon={faEye} onClick={() => handleShow(file["data"])}/>
-                           <FontAwesomeIcon className='icon-book' icon={faDownload} onClick={() => handleDownload(file["data"])} />
-                       </div>
-                   </div>
-                ))}
+            <div className='medical-details-history-record'>
+              <label className="record-name">Medical History</label>
+              {patient.files.map((file, index) => (
+                <div className="upload-file-container" key={index}>
+                  <FontAwesomeIcon className='icon-book' icon={faBookMedical} />
+                  <span>{file.fileName}</span>
+                  <div className='history-action'>
+                    <FontAwesomeIcon className='icon-book' icon={faEye} onClick={() => handleShow(file.url)} />
+                    <FontAwesomeIcon className='icon-book' icon={faDownload} onClick={() => handleDownload(file.url)} />
+                  </div>
+                </div>
+              ))}
             </div>
-        </div>
-
+          </div>
         <div className="box-record">
             <div className='medical-upload-box-record'> 
                 <label className="record-name">Upload Prescription</label>

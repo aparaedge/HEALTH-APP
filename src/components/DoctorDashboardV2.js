@@ -1,6 +1,5 @@
-// src/Dashboard.js
-
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import SideNavbar from './SideNavbar'; // Import the SideNavbar component
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay, faUser, faBell, faHeadphones } from '@fortawesome/free-solid-svg-icons'; // Import FontAwesome icons for today's appointment and total patients
@@ -11,27 +10,43 @@ import appointmentCounts from '../data/appointmentCounts.json';
 import SearchBar from './searchBar';
 
 const Dashboard = () => {
-  const [patientId, setPatientId] = useState('');
-  const [selectedPatient, setSelectedPatient] = useState(null);
-  const [fileUploadError, setFileUploadError] = useState('');
+  const [totalPatients, setTotalPatients] = useState(0);
+  const [totalAppointmentsToday, setTotalAppointmentsToday] = useState(0);
+  const [patientsData, setPatientsData] = useState([]);
   const today = new Date().toISOString().split('T')[0];
 
-  const totalPatients = patientsData.length;
-  const totalAppointmentsToday = appointmentCounts[today] || 0;
+  useEffect(() => {
+    if (!localStorage.getItem('loggedInDoctor')) {
+      window.location.href = '/';
+    } else {
+      fetchPatientsData();
+      fetchAppointmentsCount();
+    }
+  }, []);
 
+  const fetchPatientsData = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/api/patients');
+      setPatientsData(response.data);
+      setTotalPatients(response.data.length);
+    } catch (error) {
+      console.error('Error fetching patients data:', error);
+    }
+  };
 
+  const fetchAppointmentsCount = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/api/appointments/count');
+      setTotalAppointmentsToday(response.data.count);
+    } catch (error) {
+      console.error('Error fetching appointments count:', error);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('loggedInDoctor');
     window.location.href = '/';
   };
-
-  useEffect(() => {
-    if (!localStorage.getItem('loggedInDoctor')) {
-      window.location.href = '/';
-    }
-  }, []);
-
 
   return (
     <div className="dashboard-container">
@@ -63,8 +78,6 @@ const Dashboard = () => {
          </div>     
       </div>
       <SearchBar patients={patientsData} />
-        
-        
     </div>
   );
 };
