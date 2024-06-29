@@ -1,6 +1,3 @@
-/* FileUploadComponent.module.css */
-
-/* @import url(https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css); */
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css);
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap");
 
@@ -158,4 +155,37 @@
     font-weight: 400;
     background-color: #d70404;
     color: #fff;
+}
+
+.cameraButtonBox {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.cameraButton {
+    background-color: #007bff;
+    color: white;
+}
+
+.cameraView {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.video {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #b6bed1;
+    border-radius: 4px;
+}
+
+.canvas {
+    display: none;
+}
+
+.captureButton, .stopButton {
+    margin-top: 10px;
 }

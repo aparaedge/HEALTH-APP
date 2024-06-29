@@ -12,11 +12,11 @@ const PatientDetails = () => {
   const { id } = useParams();
   const [patient, setPatient] = useState(null);
   const [files, setFiles] = useState([]);
+  const [uploadStatus, setUploadStatus] = useState(""); 
+  const [clearFiles, setClearFiles] = useState(false); // New state for clearing files
 
   useEffect(() => {
-    // Simulate fetching patient data from patientsData based on id
     const foundPatient = patientsData.find(patient => patient.patientId === id);
-
     if (foundPatient) {
       setPatient(foundPatient);
     } else {
@@ -25,7 +25,7 @@ const PatientDetails = () => {
   }, [id]);
 
   if (!patient) {
-    return <p>Loading...</p>; // You can replace with a proper loading component
+    return <p>Loading...</p>; 
   }
 
   const handleShow = (fileData) => {
@@ -33,17 +33,17 @@ const PatientDetails = () => {
   };
 
   const handleFileChange = (files) => {
-    setFiles(files)
+    setFiles(files);
   }
 
-  const handleFileUploadSubmit = async (selectedFiles) => { 
+  const handleFileUploadSubmit = async () => { 
     const file = files[0];
     if (file && file instanceof Blob && patient)  {
       const reader = new FileReader();
       reader.onload = (upload) => {
         const newFile = {
           data: upload.target.result,
-          date: new Date().toISOString().split('T')[0], // Get today's date in format YYYY-MM-DD
+          date: new Date().toISOString().split('T')[0], 
           uploadedBy: 'doctor',
           fileName: file.name
         };
@@ -54,10 +54,15 @@ const PatientDetails = () => {
         const patientIndex = patientsData.findIndex((p) => p.patientId === patient.patientId);
         patientsData[patientIndex] = updatedPatient;
 
-        // Update localStorage
         localStorage.setItem('patientsData', JSON.stringify(patientsData));
         setPatient(updatedPatient);
-        // setFileUploadError('');
+        setFiles([]); 
+        setClearFiles(true); // Trigger file clearing
+        setUploadStatus("File Uploaded Successfully!"); 
+
+        setTimeout(() => {
+          setUploadStatus("");
+        }, 3000);
       };
       reader.readAsDataURL(file);
     } else {
@@ -65,10 +70,9 @@ const PatientDetails = () => {
     }
   }
 
-
   const handleDownload = (fileData) => {
     fetch(fileData, {
-        mode : 'no-cors',
+        mode: 'no-cors',
       })
         .then(response => response.blob())
         .then(blob => {
@@ -82,7 +86,6 @@ const PatientDetails = () => {
       })
   };
 
-  // Function to get initials from patient's name
   const getInitials = (name) => {
     const names = name.split(' ');
     return names[0][0].toUpperCase() + (names.length > 1 ? names[names.length - 1][0].toUpperCase() : '');
@@ -132,10 +135,9 @@ const PatientDetails = () => {
             <div className='medical-details-history-record'> 
                 <label className="record-name">Medical History</label>
                 {patient.files.map((file, index) => (
-                    <div className="upload-file-container">
+                    <div className="upload-file-container" key={index}>
                        <FontAwesomeIcon className='icon-book' icon={faBookMedical} />
                        <span> {file["fileName"]}</span>
-                       {/* <label> {patient.files[{index}]["fileName"]}</label> */}
                        <div className='history-action'> 
                            <FontAwesomeIcon className='icon-book' icon={faEye} onClick={() => handleShow(file["data"])}/>
                            <FontAwesomeIcon className='icon-book' icon={faDownload} onClick={() => handleDownload(file["data"])} />
@@ -148,7 +150,13 @@ const PatientDetails = () => {
         <div className="box-record">
             <div className='medical-upload-box-record'> 
                 <label className="record-name">Upload Prescription</label>
-                <FileUploadComponent onFileUploadSubmit={handleFileUploadSubmit} onFileChange={handleFileChange}></FileUploadComponent>
+                <FileUploadComponent 
+                  onFileUploadSubmit={handleFileUploadSubmit} 
+                  onFileChange={handleFileChange} 
+                  clearFiles={clearFiles} // Pass clearFiles as a prop
+                  setClearFiles={setClearFiles} // Pass the function to reset clearFiles state
+                />
+                {uploadStatus && <p className="upload-status">{uploadStatus}</p>} 
             </div>
         </div>
        </div>
