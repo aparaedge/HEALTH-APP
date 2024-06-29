@@ -1,9 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const multer = require('multer');
 const cors = require('cors');
 require('dotenv').config(); // to use environment variables
-
+const upload = multer({ dest: 'uploads/' });
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -135,9 +136,9 @@ const doctorSchema = new mongoose.Schema({
   });
   
   // Upload file for a patient
-  app.post('/api/patients/upload-file', async (req, res) => {
-    const { patientId, fileUrl, uploadedBy } = req.body;
-  
+  app.post('/api/patients/upload-file', upload.single('file'), async (req, res) => {
+    const { patientId, uploadedBy } = req.body;
+    console.log(req.file)
     try {
       const patient = await Patient.findOne({ patientId });
       if (!patient) {
@@ -145,7 +146,7 @@ const doctorSchema = new mongoose.Schema({
       }
   
       const newFile = {
-        url: fileUrl, // Assuming fileUrl is the URL of the stored file
+        url: req.file.path, // Assuming fileUrl is the URL of the stored file
         date: new Date().toISOString().split('T')[0], // Get today's date in format YYYY-MM-DD
         uploadedBy: uploadedBy,
       };

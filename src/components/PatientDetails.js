@@ -52,12 +52,12 @@ const PatientDetails = () => {
         const updatedPatient = { ...patient, files: updatedFiles };
 
         const formData = new FormData();
-        formData.append('url', file);
+        formData.append('file', file);
         formData.append('patientId', patient.patientId);
         formData.append('uploadedBy', 'doctor');
 
         try {
-          const response = await axios.post('http://localhost:3000/api/patients/upload-file', formData.json(), {
+          const response = await axios.post('http://localhost:3000/api/patients/upload-file', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
