@@ -3,6 +3,7 @@
     display: flex;
     height: 100vh;
     flex-direction: column;
+    margin-left: 250px;
   }
   
   .content {
@@ -63,19 +64,7 @@
   max-width: 300px; /* Limit maximum width for responsiveness */
 }
 
-@media (min-width: 768px) {
-  .cards-container {
-    max-width: 800px; /* Adjust maximum width for larger screens */
-    margin: 0 auto; /* Center align cards horizontally */
-  }
-  
-  .card {
-    min-height: 100px; /* Minimum height for both cards */
-  }
-}
-
-  
-  .notification-button:hover,
+.notification-button:hover,
   .support-button:hover {
     background-color: #1e3a8a;
   }
@@ -84,3 +73,19 @@
     margin-right: 5px; /* Add some margin between icon and text */
   }
   
+
+@media (min-width: 768px) {
+  .cards-container {
+    max-width: 800px; /* Adjust maximum width for larger screens */
+    margin: 0 auto; /* Center align cards horizontally */
+  }
+  .card {
+    min-height: 100px; /* Minimum height for both cards */
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    margin-left: 0px;
+  }
+}

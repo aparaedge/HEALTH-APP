@@ -49,36 +49,38 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <SideNavbar />
-      <div className="content">
-        <div className="header">
-          <div className="welcome-message">Welcome back</div>
-          <div className="actions">
-            <button className="notification-button">
-              <FontAwesomeIcon icon={faBell} />
-            </button>
-            <button className="support-button">
-              <FontAwesomeIcon icon={faHeadphones} />
-              Support
-            </button>
+    <>
+      <SideNavbar></SideNavbar>
+      <div className="dashboard-container">
+        <div className="content">
+          <div className="header">
+            <div className="welcome-message">Welcome back</div>
+            <div className="actions">
+              <button className="notification-button">
+                <FontAwesomeIcon icon={faBell} />
+              </button>
+              <button className="support-button">
+                <FontAwesomeIcon icon={faHeadphones} />
+                Support
+              </button>
+            </div>
           </div>
+          <div className="cards-container">
+            <Card
+              mainText={totalAppointmentsToday}
+              subText="Today's Appointments"
+              icon={<FontAwesomeIcon icon={faCalendarDay} />}
+            />
+            <Card
+              mainText={totalPatients}
+              subText="Total Patients"
+              icon={<FontAwesomeIcon icon={faUser} />}
+            />
+          </div>     
         </div>
-        <div className="cards-container">
-          <Card
-            mainText={totalAppointmentsToday}
-            subText="Today's Appointments"
-            icon={<FontAwesomeIcon icon={faCalendarDay} />}
-          />
-          <Card
-            mainText={totalPatients}
-            subText="Total Patients"
-            icon={<FontAwesomeIcon icon={faUser} />}
-          />
-         </div>     
+        <SearchBar patients={patientsData} />
       </div>
-      <SearchBar patients={patientsData} />
-    </div>
+    </>
   );
 };
 
